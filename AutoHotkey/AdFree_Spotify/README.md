@@ -11,3 +11,14 @@ There were a few other applications with similar purpose published at the time. 
 AdFree Spotify hasn't been updated in years and it's certainly been rendered obsolete somewhere on the way by Spotify client app updates that used to break something in the functionality all the time.
 
 Source code has been written in AutoHotkey, a very efficient procedural scripting language. Looking at the code today, there are so many things wrong with it, starting from variable naming, quality and amount of source comments, line lengths, etc.
+
+To run the project AutoHotkey Classic binary is required. This has been included in the project repository. For those who wish to be certain of the origin of binaries they are asked to execute, portable AutoHotkey Classic official download link is at
+```
+    https://autohotkey.com/download/1.0/AutoHotkey104805.zip
+```
+unzip Autohotkey.exe into the source file location and run
+```
+    Autohotkey.exe spotify_autoexec.ahk
+```
+
+Closing GUI will minimize it to tray. To exit, right click the tray icon and select Exit.
