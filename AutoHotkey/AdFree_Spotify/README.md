@@ -12,7 +12,7 @@ AdFree Spotify hasn't been updated in years and it's certainly been rendered obs
 
 Source code has been written in AutoHotkey, a very efficient procedural scripting language. Looking at the code today, there are so many things wrong with it, starting from variable naming, quality and amount of source comments, line lengths, etc.
 
-To run the project AutoHotkey Classic binary is required. This has been included in the project repository. For those who wish to be certain of the origin of binaries they are asked to execute, portable AutoHotkey Classic official download link is at
+To run the project, AutoHotkey Classic binary is required. This has been included in the project repository. For those who wish to be certain of the origin of binaries they are asked to execute, portable AutoHotkey Classic official download link is at
 ```
     https://autohotkey.com/download/1.0/AutoHotkey104805.zip
 ```
