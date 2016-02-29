@@ -1,0 +1,215 @@
+/*color: #d16700;*/ 	/* orange */
+/*color: #fefe00;*/ 	/* yellow */
+/*color: #b1b0ae;*/ 	/* gray */
+
+@font-face {
+	font-family: lcd;
+	src: url(LiquidCrystal-Normal.otf);
+}
+
+body { background: #000; color: #b1b0ae; font-family: verdana; }
+
+
+#game_guide {
+	margin: 70px auto 0;
+	color: #b1b0ae;
+	text-align: center;
+	min-width: 630px;
+}
+
+p {
+	font-size: 0.8em;
+}
+
+p:first-letter {
+	color: #fefe00;
+}
+
+fieldset {
+	border-radius: 10px;
+	border: 2px solid #fefe00;
+	text-transform: uppercase;
+	color: #fefe00;
+	font-weight: bold;
+	width: 606px;
+	margin: auto;
+}
+
+legend{
+
+	font-size: 0.8em;
+	padding: 10px 0;
+}
+
+form {
+	color: #fefe00;
+	font-size: small;
+	text-transform: none;
+}
+
+span.span_key {
+	float:left;
+	
+	width: 100px;
+	height: 18px;
+
+	background: #888;
+	font-weight: bold;
+	display: inline-block;
+	
+	line-height: 19px;
+	margin-right: 5px;
+}
+
+#span_key0 { color: blue; border: 1px solid blue; margin-left: 22px;}
+#span_key1 { color: orange; border: 1px solid orange;}
+#span_key2 { color: red; border: 1px solid red;}
+#span_key3 { color: yellow; border: 1px solid yellow;}
+
+#key_button0 { border: 1px solid blue; }
+#key_button1 { border: 1px solid orange; }
+#key_button2 { border: 1px solid red; }
+#key_button3 { border: 1px solid yellow; margin-bottom: 12px;}
+
+.key_button {
+	float: left;
+	width: 20px;
+	background: #777;
+	/*border: 2px solid #fefe00;*/
+	color: #fff;
+	font-weight: bold;
+	text-align: center;
+	margin: 0 15px 0 0;
+}
+
+#game_container {
+	background-image: url("images/game_bkgnd.jpg");
+	width: 630px;
+	height: 482px;
+	margin: 10px auto 0;
+	border: 2px solid #fefe00;
+	border-radius: 50px;
+}
+
+.level {
+	position: relative;
+	margin-right: 12.4px;
+	margin-left: 1px;
+	top: 75px;
+	left: 159px;
+	width: 32px;
+	height: 32px;
+	float: left;
+	visibility: hidden;
+}
+
+#level0 { background: url("images/level0.png") center no-repeat; }
+#level1 { background: url("images/level1.png") center no-repeat; }
+#level2 { background: url("images/level2.png") center no-repeat; }
+#level3 { background: url("images/level3.png") center no-repeat; }
+#level4 { background: url("images/level4.png") center no-repeat; }
+#level5 { background: url("images/level5.png") center no-repeat; }
+#level6 { background: url("images/level6.png") center no-repeat; }
+
+#stars_left {
+	clear: left;
+	float: left;
+	
+	left: 124px;
+	top: 127px;
+	width: 111px;
+	height: 68px;
+
+	position: relative;
+	background: url("images/stars_left.png") center no-repeat; 
+
+	visibility: hidden;
+}
+
+#score {
+	float: left;
+	
+	left: 160px;
+	top: 118px;
+	width: 86px;
+	height: 38px;
+	
+	position: relative;
+
+	font: 2.59em lcd;
+	line-height: 38px;
+	color: #f00;
+}
+
+#stars_right {
+	float: left;
+	
+	left: 198px;
+	top: 126px;
+	width: 111px;
+	height: 68px;
+
+	position: relative;
+	background: url("images/stars_right.png") center no-repeat; 
+	
+	visibility: hidden;
+}
+
+.button_container {
+	float: left;
+	top: 258px;
+	left: 97px;
+
+	position: relative;
+	margin: 0 1px 0 0;
+}
+
+#button_container0 { clear: left; }
+
+.button {
+	top: 0px;
+	left: 0px;
+	width: 108px;
+	height: 108px;
+
+	position: relative;
+	margin: 0;
+
+	visibility: hidden;
+}
+
+#button0 { background-image: url("images/button0.png"); }
+#button1 { background-image: url("images/button1.png"); }
+#button2 { background-image: url("images/button2.png"); }
+#button3 { background-image: url("images/button3.png"); }
+
+#footer {
+	min-width: 630px;
+}
+
+#start_button {
+	width: 120px;
+	/*min-width: 630px;*/
+
+	color: #d16700;
+	font-size: 1.1em;
+	font-family: verdana;
+	font-variant: small-caps;
+	text-transform: uppercase;
+	font-weight: bold;
+	border-radius: 10px;
+	padding: 7px 15px;
+	border: 2px solid #fefe00;
+	margin: 20px auto 0;
+	text-align: center;
+
+}
+
+#start_button.yellow {
+	color: #fefe00;
+}
+
+#start_button:hover {
+	color: #fefe00;
+	cursor: pointer;
+}
