@@ -2,7 +2,7 @@
 #### 
 ###### Year: 2013
 # 
-<img src="https://github.com/1400883/portfolio/blob/master/C_FlowCode/Poker_Game/screenshot.png?raw=true" width="340" />
+<img src="https://github.com/1400883/portfolio/blob/master/C_FlowCode/Poker_Game/screenshot.jpg?raw=true" width="340" />
 
 Poker Game is a program that mimics the logic of old-school two-round poker slot machines. It was made for an embedded system a few years back while studing electronics in North Karelian professional college.
 
