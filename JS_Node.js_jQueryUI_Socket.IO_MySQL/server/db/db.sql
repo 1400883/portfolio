@@ -1,0 +1,34 @@
+-- Copyright (c) 2015 Tuomas Keinänen
+
+DROP DATABASE IF EXISTS matopeli;
+CREATE DATABASE matopeli;
+
+USE matopeli;
+
+CREATE TABLE user (
+  id INT AUTO_INCREMENT,
+  name VARCHAR(15) NOT NULL,
+  password CHAR(64) NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE topscore (
+  id INT AUTO_INCREMENT,
+  user INT NOT NULL,
+  score INT NOT NULL,
+  boardsize INT NOT NULL,
+  speed INT NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (user) 
+    REFERENCES user(id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE=InnoDB;
+
+CREATE TABLE chat (
+  id INT AUTO_INCREMENT,
+  msg VARCHAR(120) NOT NULL,
+  author VARCHAR(15) NOT NULL,
+  time TIMESTAMP,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB;

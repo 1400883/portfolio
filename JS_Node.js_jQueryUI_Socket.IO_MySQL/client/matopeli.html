@@ -1,0 +1,103 @@
+<!-- 
+  Copyright (c) 2015 mostly Eppu Mutanen 
+  Some parts copyright (c) 2015 Tuomas Keinänen
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Matopeli</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/regstyle.css">
+  <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,600,700' rel='stylesheet' type='text/css'>
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+  <script src="https://cdn.socket.io/socket.io-1.3.6.js"></script>
+  <script src="js/onload.js"></script>
+  <script src="js/register.js"></script>
+  <script src="js/keyboardcontrol.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/gameboard.js"></script>
+  <script src="js/worm.js"></script>
+  <script src="js/food.js"></script>
+  <script src="js/chat.js"></script>
+  <script src="js/login.js"></script>
+</head>
+<body>
+<div id="login">
+  <div class="inner">    
+    <!-- Ei sisäänkirjautuneena -->
+    <div id="login-form">
+      Käyttäjänimi:<input type="text" name="username" id="login-username" maxlength="15">
+      Salasana:<input type="password" name="password" id="login-password" maxlength="30">
+      <input type="button" value="Kirjaudu" id="login-button">
+    </div>
+    <div id="login-reg">Ei vielä omaa tunnusta? <a href="#" id="register-link">Rekisteröidy</a></div>
+
+    <!-- Sisäänkirjautuneena -->
+    <div id="logoff-form">
+      Kirjautuneena: <span id="logged-username"></span>
+      <input type="button" value="Kirjaudu ulos" id="logoff-button">
+    </div>
+  </div>
+</div>
+<div id="main-container">
+  <div id="logo"></div>
+  <div id="player-container" class="side-container">
+    Pelaajat
+    <div id="player-list" class="listing">
+    <table id="player-table">
+      <tr> <td>Pelaaja 1</td> </tr>
+      <tr> <td>Pelaaja 2</td> </tr>
+      <tr> <td>Pelaaja 3</td> </tr>
+      <tr> <td>Pelaaja 4</td> </tr>
+      <tr> <td>Pelaaja 5</td> </tr>
+      <tr> <td>Pelaaja 6</td> </tr>
+      <tr> <td>Pelaaja 7</td> </tr>
+      <tr> <td>Pelaaja 8</td> </tr>
+      <tr> <td>Pelaaja 9</td> </tr>
+      <tr> <td>Pelaaja 10</td> </tr>
+      <tr> <td>Pelaaja 11</td> </tr>
+      <tr> <td>Pelaaja 12</td> </tr>
+      <tr> <td>Pelaaja 13</td> </tr>
+      <!-- <tr> <td>Pelaaja 14</td> </tr> -->
+    </table>    
+    </div>
+    <input type="button" value="Haasta kaksinpeliin">
+  </div>
+  <div id="game-container">
+    <div id="gameboard" tabindex="0">...</div>
+  </div>
+  <div id="chat-container" class="side-container">
+    Chat-viestit
+    <div id="chat-list" class="listing">
+      <table id="chat-table">
+        <tbody></tbody>
+      </table>
+    </div>
+    <input type="text" name="message-input" id="message-input" placeholder="Kirjoita viesti" size="30" maxlength="120">
+  </div>
+</div>
+<div id="register-dialog" title="Rekisteröi käyttäjätunnus">    
+  <table>
+    <tr>
+      <td></td><td id="register-username-validation" class="credential-validation">&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Käyttäjänimi:</td>
+      <td><input type="text" name="register-username" id="register-username" size="30" maxlength="15"></td>
+    </tr>
+    <tr>
+      <td></td><td id="register-password-validation" class="credential-validation abc">&nbsp;</td>
+    </tr>
+    <tr>
+      <td>Salasana:</td>
+      <td><input type="password" name="register-password" id="register-password" size="30" maxlength="30"></td>
+    </tr>
+  </table>
+</div>
+
+</body>
+</html>
