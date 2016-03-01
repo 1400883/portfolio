@@ -1,3 +1,7 @@
+/*
+  Copyright (c) 2015 Tuomas Keinänen
+*/
+
 #include <list>
 #include <fstream>
 #include <iostream>
