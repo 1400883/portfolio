@@ -2,6 +2,8 @@
 #### Licensed under MIT
 ###### Year: 2015
 # 
+<img src="https://github.com/1400883/portfolio/blob/master/Unity3D_C#_GLSL/Parking_Lot_Visualization/screenshot.png?raw=true" width="340" />
+
 This project was assigned in the fall 2015 to a student team I was a member in in Karelian University of Applied Sciences. The objective was to create a 3D representation of the campus parking lot area that
 - mirrors the occupation of individual parking slots in (almost) real time
 - can be made accessible on the Internet.
