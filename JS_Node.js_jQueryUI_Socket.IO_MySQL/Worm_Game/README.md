@@ -2,6 +2,7 @@
 #### Licensed under MIT
 ###### Year: 2015
 # 
+<img src="https://github.com/1400883/portfolio/blob/master/JS_Node.js_jQueryUI_Socket.IO_MySQL/Worm_Game/screenshot.png?raw=true" width="340" />
 This was one of those the less fortunate student-driven team projects in Karelian University of Applied Sciences, where you end up doing pretty much everything yourself.
 
 The objective was to create a multiplayer worm game with following features:
