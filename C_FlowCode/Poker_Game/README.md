@@ -11,6 +11,7 @@ At the heart of the game there was ECIO, a PIC-based USB programmable single boa
 Most of the code was done by flowchart symbol connections in FlowCode, a graphical programming environment with low learning curve. However, in this project I had to mix in pure C as well, as winning hand checks would've taken far too many graphics items and screen estate to be practical anymore.
 
 Full documentation included in ECIO-pokeripelikone.pdf (in Finnish).
+
 Watch gameplay @ [Youtube]
 
 [Youtube]: https://www.youtube.com/watch?v=HSC5H1ce-U0
