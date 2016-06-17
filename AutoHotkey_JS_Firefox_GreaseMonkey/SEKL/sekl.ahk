@@ -1,12 +1,8 @@
-/*
-  Copyright (c) 2016 Tuomas Keinänen
-*/
-
   #installkeybdhook
   #ltrim
-  ;reload_script()
-  ahktitleclassname := "Mozilla Firefox ahk_class MozillaWindowClass"
-  gmFile := "Z:\Mozilla_profiles\7uxpsos8.default\gm_scripts\SEKL_options\SEKL_options.user.js"
+  reload_script()
+  gmFile := "Z:\Waterfox\Data\profile\gm_scripts\SEKL_options\SEKL_options.user.js"
+  ;gmFile := "Z:\Mozilla_profiles\7uxpsos8.default\gm_scripts\SEKL_options\SEKL_options.user.js"
   gmImageLabelDbnJoensuu := "DBN_2016_kevät_Hukanhauta"
   gmImageLabelDbnPolvijarvi := "DBN_2016_kevät_Polvijärvi"
   gmImageLabel3kJoensuu := "Kolme Kohtaamista 2016_kevät"
@@ -16,6 +12,8 @@
   gui, add, edit, section readonly ym w300 h264 vvedit
   gui, add, button, gupdate w510 h30 xm, Päivitä leikepöydältä 
   gui, show, autosize
+  ;clipboard := "JOENSUU Ma 19.8. klo 9 rukouspiiri toimistolla. MUUALLA JOENSUUSSA To 15.8. klo 18 Nuorten aikuisten ilta Männikköniemessä, Vainoniementie 2, Markku Fräntilä, Räisästen lähettiperheen kuulumisia.`r`n`r`nJUUKA Su 18.8. klo 18 Kotiseurat Raimo ja Liisa Tanskasella, Kuhnustantie 892, Jorma Hoppa, Veikko Kettunen.`r`n`r`nNURMES To 15.8. klo 18 Eloseurat srk-keskuksessa, Ikolantie 3, Heimo Karhapää, Jouko Puhakka.`r`n`r`nPIELISENSUU Pe 16.8. klo 18 Sulkulan kotailta Pyhäselän rannalla, Matti Innanen, Raimo Kukkonen, Arja Ryynänen, Räisästen lähettiperheen kuulumisia.`r`n`r`nTOHMAJÄRVI Su 18.8. klo 10 Lähetyspyhä, messu kirkossa, saarna Heimo Karhapää, liturgi Mikko Lappalainen, kirkkokahvit ja lähetystilaisuus Kesäkahvilassa, Kirkkotie 600, Heimo Karhapää."
+  ;gosub, update
   inputBoxTitle := "Täydennä tapahtuman otsikko"
 
   gmHeader =
@@ -50,11 +48,12 @@
   gmCity          := "  this.city = "
   gmCountry       := "  this.country = "
   gmImageLabel    := "  this.imageLabel = "
+  gmIsLastItem    := "  this.isLastItem = "
 return
 
 f12:: return
 
-; Kasvata tai vähennä YYYYMMDDHH24MISS-aikaleimaa syötteen mukaisesti
+; Increments or decrements YYYYMMDDHH24MISS date by given amount
 AdjustDate(date, value, valuetype, operation)
 {
   if (operation = "+")
@@ -64,43 +63,41 @@ AdjustDate(date, value, valuetype, operation)
   return % date
 }
 
-; Muuntaa DD.MM-formaatin muotoon YYYYMMDDHH24MISS
+; Converts DD.MM to YYYYMMDDHH24MISS
 ConvertDate(dayDotMonthDot, time = 0)
 {
-  ; Erota päivä ja täytä tarvittaessa etunollalla
+  ; Extract day and make two chars wide
   day := regexreplace(dayDotMonthDot, "^(\d+).*$", "$1")
   if (strlen(day) = 1)
     day := "0" day
 
-  ; Erota kuukausi ja täytä tarvittaessa etunollalla
+  ; Extract month and make two chars wide
   month := regexreplace(dayDotMonthDot, "^\d+\.(\d+).*$", "$1")
   if (strlen(month) = 1)
     month := "0" month
   
-  ; Kasvata vuosi yhdellä, jos on parhaillaan joulukuu ja annettu kuukausi tammikuu
+  ; Increment the year if current month is 12 and given month 01
   year := a_year + (month < a_mm)
 
-  if (time) 
-  {
-    ; Erota tunnit ja täyta tarvittaessa etunollalla
+  if (time) {
+    ; Extract hours from the time string
     hours := regexreplace(time, "^(\d+).*$", "$1")
     if (strlen(hours) = 1)
       hours := "0" hours
 
-    ; Yritä erottaa minuutit
+    ; Try to extract minutes from the time string
     minutes := regexreplace(time, "^\d+\.(\d+).*$", "$1", replacements)
     if !replacements
-      ; Vain tunnit annettiin
+      ; Just hours given
       minutes := "00"
   }
-  else 
-  {
+  else {
       hours := "00"
     , minutes := "00"
   }
   seconds := "00"
 
-  ; Palauta muodossa YYYYMMDDHH24MISS
+  ; Return YYYYMMDDHH24MISS
   return % year month day hours minutes seconds
 }
 
@@ -112,17 +109,16 @@ update:
   {
     iEventRow := iAllEvents := 0
     loop, parse, clipboard, `n, `r
-      if (a_loopfield != "")
-      {
+      if (a_loopfield != "") {
         iEventRow++
         numEvents%iEventRow% := 0
-        ; Poista "MUUALLA JOENSUUSSA "
+        ; Remove "MUUALLA JOENSUUSSA "
         stringreplace, loopfield, a_loopfield, % "MUUALLA JOENSUUSSA "
-        ; Poista TABit
+        ; Remove TABs
         stringreplace, loopfield, loopfield, % a_tab
         ; "JOENSUU|RANTAKYLÄ" etc..
         eventCity := regexreplace(loopfield, "^([A-ZÅÄÖ][A-ZÅÄÖ\s]{2,}[A-ZÅÄÖ])(?=\s).*", "$1")
-        ; Poista merkkijonosta tapahtumakaupunki ja perästä välilyönnit
+        ; Remove event city and trailing whitespace from the string
         loopfield := regexreplace(loopfield, eventCity "\s")
         loop 
         {
@@ -251,7 +247,6 @@ update:
             klo 10 messu, saarna Gerson Mgaya, liturgia Tiina Laakkonen. Lähetyslounas ja 
             lähetystilaisuus. Puhujina past. Gerson Mgaya, Japanin-lähetti Anssi Savonen, past. 
             Antti Kyytsönen ja past. Anna Holopainen.
-
             La 14.11. ystäväretriitti ”Te olette minun todistajani” kirkossa, Rantakylänkatu 2: 
             Klo 10 messu, Gerson Mgaya, klo 11 ”Henkilökohtainen evankelioiminen I”, Raimo Lappi, 
             klo 12 lounas, klo 12.45 ”Henkilökohtainen evankelioiminen II”, Raimo Lappi, klo 13.30 
@@ -278,9 +273,9 @@ update:
                 ; ".* (Pe 15.1.)\s("
                 ; Huom! Myös kuukausi voi vaihtua kesken tapahtuman, joten
                 ; parempi käyttää \d-syntaksia kuin dateMatch%a_index%3
-                , "(?<=\s)(" weekdayRegexUpper "\s\d{1,2}\.\d{1,2}\.)"
+                , "(?<=\s)(" weekdayRegexUpper "(?:\s\d{1,2}\.\d{1,2}\.)?)"
                 ; "iltatilaisuus.) La 16.1."
-                . "\s(.*?)(?:(?:\s" weekdayRegexUpper "\s\d{1,2}\.\d{1,2}\.).*)?$"
+                . "\s(.*?)(?:(?:\s" weekdayRegexUpper "\s(?:\d{1,2}\.\d{1,2}\.)?).*)?$"
                 , subDateMatch, dateMatchPos + 1)
               if (dateMatchPos) 
               {
@@ -393,7 +388,24 @@ update:
           , datetimeend%iAllEvents% := AdjustDate(datetimeend%iAllEvents%, 2, "h", "+")
         }
       }
-    ; Täytä listbox
+    /*
+    iCh := 0
+    loop % iEventRow {
+      msgbox % "iEventRow: " iEventRow
+      iRow := a_index
+      loop {
+        iChapter := a_index
+        if (textChapters%iRow%_%iChapter%) {
+          msgbox % "textChapters: " textChapters%iRow%_%iChapter%
+          s .= ++iCh ": " textChapters%iRow%_%iChapter% "`r`n"
+        }
+        else
+          break
+      }
+    }
+    msgbox % eventText "`n`n" s
+    */
+    ; Populate listbox
     loop % iAllEvents
       guicontrol, , vlistbox, % (a_index = 1 ? "|" : "") 
       . place%a_index% a_tab datestart%a_index% a_tab timestart%a_index% 
@@ -469,8 +481,7 @@ f8::
     ; Tapahtuman otsikko. 
     ; ---------------------------------------
     eventTitle%iListbox% := StringToTitleCase(place%iListbox%) ": "
-    if (uncertainEventType) 
-    {
+    if (uncertainEventType) {
       ; Mikäli tapahtumatyyppi on epävarma, kysy käyttäjältä 
       ;tooltip % uncertainEventType
       ; Poista tekstin oletusvalinta siirtämällä kursori ajastimella rivin päätyyn
@@ -506,11 +517,9 @@ f8::
     ; ---------------------------------------
     fileappend, % gmTextChapters1 "`r`n", % gmFile
     textChapters := ""
-    loop 
-    {
+    loop {
       chapter := textChapters%iListbox%_%a_index%
-      if (chapter) 
-      {
+      if (chapter) {
         ; Korvaa MS Wordin lainausmerkit perus-ASCII-lainausmerkeillä ja eskapoi
         stringreplace, chapter, chapter, ”, \", 1
         AnsiToUTF8(chapter)
@@ -521,8 +530,7 @@ f8::
           ; Lisää rivinvaihto uudeksi tyhjäksi kappaleeksi
           textChapters .= "    """",`r`n"
       }
-      else 
-      {
+      else {
         ; Poista viimeinen pilkku, mutta säilytä rivinvaihto
         regexreplace(textChapters, "s)^(.*),(.*)$", "$1$2")
         break
@@ -590,63 +598,66 @@ f8::
     eventType := regexreplace(eventTitle%iListbox%, "^.*?:\s(.*)", "$1")
     ; Palauta ANSI-versio tapahtumatyypistä vertailua varten
     UTF8ToAnsi(eventType) 
-    if (eventType = "Donkkis Big Night") 
-    {
+    if (eventType = "Donkkis Big Night") {
       AnsiToUTF8(gmImageLabelDbnJoensuu)
       AnsiToUTF8(gmImageLabelDbnPolvijarvi)
       ;isEventCompleteWithImages = 1
       fileappend, % gmImageLabel """" (replaceText = "Joensuu" 
         ? gmImageLabelDbnJoensuu : gmImageLabelDbnPolvijarvi) """`;`r`n", % gmFile
     }
-    else if (eventType = "Nuorten aikuisten ja opiskelijoiden ilta") 
-    {
+    else if (eventType = "Nuorten aikuisten ja opiskelijoiden ilta") {
       AnsiToUTF8(gmImageLabel3kJoensuu)
       fileappend, % gmImageLabel """" gmImageLabel3kJoensuu """`;`r`n", % gmFile
     }
-    else if (eventType = "Leipäsunnuntai") 
-    {
+    else if (eventType = "Leipäsunnuntai") {
       AnsiToUTF8(gmImageLabelLeipisJoensuu)
       fileappend, % gmImageLabel """" gmImageLabelLeipisJoensuu """`;`r`n", % gmFile
     }
-    else if (eventType = "Pyhän Hengen seminaari") 
-    {
+    else if (eventType = "Pyhän Hengen seminaari") {
       AnsiToUTF8(gmImageLabelPHSeminaariJoensuu)
       fileappend, % gmImageLabel """" gmImageLabelPHSeminaariJoensuu """`;`r`n", % gmFile 
     }
+    ; ---------------------------------------
+    ; Onko viimeinen tapahtuma?
+    ; ---------------------------------------
+    ;if (numListboxSelections = a_index)
+      ;fileappend, % gmIsLastItem "true`;`r`n", % gmFile
 
     fileappend, % gmFooter, % gmFile
 
-    ; Tulosta ohjeet käyttäjälle
-    tooltip % "Viimeistele tapahtuman syöttö. "
-            . (a_index < numListboxSelections 
-              ? "Uudelleenlataa tapahtumansyöttösivu`n"
-            . "ja täytä seuraava tapahtuma painamalla F12."
-              : "Tämä on listan viimeinen tapahtuma.")
-    keywait, f12, d
-    keywait, f12, u
+    ;if !isEventCompleteWithImages {
+      ; Tulosta ohjeet käyttäjälle
+      tooltip % "Viimeistele tapahtuman syöttö. "
+              . (a_index < numListboxSelections 
+                ? "Uudelleenlataa tapahtumansyöttösivu`n"
+              . "ja täytä seuraava tapahtuma painamalla F12."
+                : "Tämä on listan viimeinen tapahtuma.")
+      keywait, f12, d
+      keywait, f12, u
+    ;}
   }
   tooltip
 return
 
-AnsiToUTF8(byref str) 
-{
+AnsiToUTF8(byref str) {
   stringreplace, str, str, Ä, Ã„, All
   stringreplace, str, str, ä, Ã¤, All
   stringreplace, str, str, Ö, Ã–, All
   stringreplace, str, str, ö, Ã¶, All
   stringreplace, str, str, Å, Ã…, All
   stringreplace, str, str, å, Ã¥, All
+  stringreplace, str, str, €, â`‚¬, All
   stringreplace, str, str, –, â€“, All
 }
 
-UTF8ToAnsi(byref str) 
-{
+UTF8ToAnsi(byref str) {
   stringreplace, str, str, Ã„, Ä, All
   stringreplace, str, str, Ã¤, ä, All
   stringreplace, str, str, Ã–, Ö, All
   stringreplace, str, str, Ã¶, ö, All
   stringreplace, str, str, Ã…, Å, All
   stringreplace, str, str, Ã¥, å, All
+  stringreplace, str, str, â`‚¬, €, All
   stringreplace, str, str, â€“, –, All
 }
 
@@ -659,13 +670,6 @@ StringToTitleCase(str)
 {
   stringupper, uppercased, str, t
   return % uppercased
-}
-
-string_in(string, matchlist)
-{
-  if string in %matchlist%
-    return 1
-  return 0
 }
 
 guiclose:
@@ -694,4 +698,7 @@ return
   PIELISENSUU Pe 16.8. klo 18 Sulkulan kotailta Pyhäselän rannalla, Matti Innanen, Raimo Kukkonen, Arja Ryynänen, Räisästen lähettiperheen kuulumisia.
 
   TOHMAJÄRVI Su 18.8. klo 10 Lähetyspyhä, messu kirkossa, saarna Heimo Karhapää, liturgi Mikko Lappalainen, kirkkokahvit ja lähetystilaisuus Kesäkahvilassa, Kirkkotie 600, Heimo Karhapää.
+
+
+
 */
