@@ -18,6 +18,6 @@ One of the teammates did a decent job on the game board appearance (CSS + images
 
 The server is based on Node.js. Communication between the client and the server is realized using socket.IO. A little bit of jQuery UI for the registration form and MySQL database for the permanent storage - that's what little kids are made of!
 
-Online testing site @ [OpenShift]. Please don't type rude stories in the chat, so I won't have to blush reading them. Thanks.
+Online testing site @ [OpenShift]. The app is hosted on a free plan that idles the server after a period of inactivity, so loading the page may initially take some time. Please don't type rude stories in the chat, so I won't have to blush reading them. Thanks.
 
 [OpenShift]: http://matopeli-1400883.rhcloud.com/
