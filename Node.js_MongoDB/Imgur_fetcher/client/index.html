@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Instagram metadata search</title>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+  <script src="http://spin.js.org/spin.min.js"></script>
+  <script src="http://spin.js.org/jquery.spin.js"></script>
+  <script src="client.js"></script>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+<body>
+
+<!-- Search bar -->
+<div id="search-container" hidden>
+    <input id="search-input" class="search-input" type="text" placeholder="Search">
+    <input id="search-info-btn" class="search-input unpressed-btn" value="?" type="button">
+</div>
+
+<!-- Loading spinner -->
+<div id="load-anim-container">
+  <div id="load-anim"></div>
+</div>
+
+<!-- Results -->
+<div id="search-result-container"></div>
+
+<!-- How-to-use guide -->
+<div id="guide-root">
+  <div id="guide-centerer">
+    <div id="guide-container" hidden>
+      <h2>Search guide</h2>
+      <div id="guide-content">
+        <h3>Syntax</h3>
+        <p>
+          [ <span class="syntax-global">&lt;global-search-term&gt;</span> ]
+          [ <span class="syntax-meta-field">$&lt;metadata-field&gt;</span>
+          <span class="syntax-meta-term">&lt;metadata-search-term&gt;</span> ]*
+        </p>
+        <p>where</p>
+        <p>
+          <span class="syntax-global">&lt;global-search-term&gt;</span>
+          is any text<br>
+          <span class="syntax-meta-field">$&lt;metadata-field&gt;</span>
+          is a dollar sign followed by a 
+          <a href="#guide-metadata-fields" class="link">
+          recognized field name</a><br>
+          <span class="syntax-meta-term">&lt;metadata-search-term&gt;</span>
+          is any text
+        </p>
+        <ul>
+          <li><p>
+            <span class="syntax-global">&lt;global-search-term&gt;</span>
+            is searched across the entire metadata database, i.e. it matches
+            any field in any database record where the term is found. Global
+            search term is optional, and it may contain spaces.
+          </p></li>
+
+          <li><p>
+            <span class="syntax-meta-field">$&lt;metadata-field&gt;</span>
+            <span class="syntax-meta-term">&lt;metadata-search-term&gt;</span>
+            pair(s) allow field-specific value searching. 
+            <span class="syntax-meta-field">$&lt;metadata-field&gt;</span>
+            limits the 
+            <span class="syntax-meta-term">&lt;metadata-search-term&gt;</span>
+            to match only corresponding field in database records. Following
+            rules apply to
+            <span class="syntax-meta-term">&lt;metadata-search-term&gt;</span>:</p>
+            <table>
+              <tr>
+                <th><a href="#guide-metadata-fields" class="link">Field type</a></th>
+                <th>Search term format</th>
+                <th>Example</th>
+                <th>Valid range</th>
+              </tr>
+              <tr>
+                <td>String</td>
+                <td>Regular text</td>
+                <td>$topic aww</td>
+                <td>Any (null will be converted)</td>
+              </tr>
+              <tr>
+                <td>Number</td>
+                <td>[ Operator ] value</td>
+                <td>$width >= 512</td>
+                <td>Operator (empty implies =): &gt; | &gt;= | &lt; | &lt;= | != | = <br>Value: non-negative integer | null</td>
+              </tr>
+              <tr>
+                <td>Boolean</td>
+                <td>Regular text</td>
+                <td>$animated true</td>
+                <td>true | false | null</td>
+              </tr>
+            </table>
+          <p>
+            All field types are nullable, and failure in retrieving metadata
+            to some image from imgur server results in nulled defaults for it.
+          </p></li>
+          <li><p>
+            Searches including both global and metadata-related search terms
+            are conducted by logically-or'ing all conditions together. As
+            such, adding more search terms will not further limit the number 
+            of results.
+          </p></li>
+          <li><p>
+            Finally, all searches are case-insensitive.
+          </p></li>
+        </ul>
+        
+        <span class="split"></span>
+
+        <h3 id="guide-metadata-fields">Available metadata fields</h3>
+        <p>Some imgur viral entries are entire albums, some individual images. 
+        As for albums, any image-specific metadata is for the album cover.</p>
+        <table>
+          <tr><th>Name</th><th>Type</th><th>Description</th></tr>
+          <tr><td>title</td><td>String</td><td>The title</td></tr>
+          <tr><td>datetime</td><td>Number</td><td>Time inserted into the gallery, epoch time</td></tr>
+          <tr><td>views</td><td>Number</td><td>The number of views</td></tr>
+          <tr><td>comment_count</td><td>Number</td><td>Number of comments</td></tr>
+          <tr><td>topic</td><td>String</td><td>Topic</td></tr>
+          <tr><td>ups</td><td>Number</td><td>Upvotes</td></tr>
+          <tr><td>downs</td><td>Number</td><td>Number of downvotes</td></tr>
+          <tr><td>points</td><td>Number</td><td>Upvotes minus downvotes</td></tr>
+          <tr><td>score</td><td>Number</td><td>Imgur popularity score</td></tr>
+
+          <tr><td>description</td><td>String</td><td>Image description</td></tr>
+          <tr><td>type</td><td>String</td><td>Image MIME type</td></tr>
+          <tr><td>animated</td><td>Boolean</td><td>Is the image animated?</td></tr>
+          <tr><td>width</td><td>Number</td><td>The width of the image in pixels</td></tr>
+          <tr><td>height</td><td>Number</td><td>The height of the image in pixels</td></tr>
+          <tr><td>size</td><td>Number</td><td>The size of the image in bytes</td></tr>
+          <tr><td>bandwidth</td><td>Number</td><td>Bandwidth consumed by the image in bytes</td></tr>
+          <tr><td>link</td><td>String</td><td>The direct link to the the image. (Note: if fetching an animated GIF that was over 20MB in original size, a .gif thumbnail will be returned)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

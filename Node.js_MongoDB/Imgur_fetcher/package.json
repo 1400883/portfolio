@@ -1,0 +1,23 @@
+{
+  "name": "cgi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "nodemon server/server.js || nodejs server/server.js || node server/server.js",
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "4.14.0",
+    "mongoose": "4.7.1",
+    "request": "2.79.0",
+    "socket.io": "1.7.1"
+  },
+  "devDependencies": {
+    "chai": "3.5.0",
+    "chai-subset": "1.3.0",
+    "mocha": "3.2.0"
+  }
+}
