@@ -10,4 +10,4 @@ Assignment consisted of implementing a node-based application that retrieves vir
 
 Database unit tests were also carried out, using Mocha.
 
-A live copy of the application should be running in the AWS cloud @ http://35.156.228.64:3000/. For new installations, the app utilizes features introduced recently in MongoDB, so you should aim at server version no older than 3.4.
+A live copy of the application should be running on the AWS cloud @ http://35.156.228.64:3000/. For new installations, the app utilizes features introduced recently in MongoDB, so you should aim at server version no older than 3.4.
