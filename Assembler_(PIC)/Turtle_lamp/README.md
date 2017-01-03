@@ -20,4 +20,4 @@ R6 and R7 are included to provide temperature stabilization for led current draw
 
 <img src="https://github.com/1400883/portfolio/blob/master/Assembler_(PIC)/Turtle_lamp/circuit.png?raw=true" width="500" />
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/1zPA86Bnflw" frameborder="0" allowfullscreen></iframe>
+[![Click to watch the lamp in action](http://img.youtube.com/vi/1zPA86Bnflw/0.jpg)](https://www.youtube.com/watch?v=1zPA86Bnflw "Click to watch the Lamp in action")
