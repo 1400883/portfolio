@@ -1,5 +1,5 @@
 # Portfolio
-##### Tuomas Keinänen
+##### Tuomas Närhi
 # 
 # 
 This repo will introduce some of the coding stuff I've done over the years. You're welcome to take a look!
